@@ -1,7 +1,8 @@
 CUDAROOT = ${CUDA_HOME}
+GPU_ARCH=70
 
 # Flags for GPUs with Volta architecture.  Modify cc value as required.
-FLAGS = -O3 -mp -pgf90libs -Mcuda=cc70,cuda10.1 -Mlarge_arrays
+FLAGS = -O3 -mp -pgf90libs -Mcuda=cc$(GPU_ARCH),cuda11.0 -Mlarge_arrays
 
 # extract PGI major version
 PGI_MAJOR_VERSION := $(shell pgfortran -V | egrep -o '[0-9]+\.[0-9]+' | sed -e 's/\.[0-9]\+//g')
@@ -15,7 +16,7 @@ endif
 
 INCS = -I../lib_eigsolve 
 LIBS = -Mcudalib=cublas,cusolver -L${CUDAROOT}/lib64 -lnvToolsExt
-LIBS += ../lib_eigsolve/lib_eigsolve.a
+LIBS += -l_eigsolve
 
 # Populate this section for your LAPACK installation. Default here is for MKL.
 LAPACKROOT = ${MKLROOT}
